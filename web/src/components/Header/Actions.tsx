@@ -6,6 +6,7 @@ import { navigate } from "gatsby";
 import { catchGraphqlError } from "../../apollo/graphql/catchGraphqlError";
 import { LOG_OUT, ME } from "../../apollo/graphql/useAuth";
 import { PrimaryButton } from "../Button";
+import { IUser } from "../../types/IUser";
 
 const Styled = styled.div`
   display: flex;
@@ -16,11 +17,6 @@ const Styled = styled.div`
   }
 `;
 
-interface IUser {
-  id: number;
-  email: string;
-}
-
 interface Props {
   user: IUser;
 }
@@ -29,7 +25,7 @@ const Actions: React.FC<Props> = ({ user }) => {
   const [logout] = useMutation(LOG_OUT);
 
   function shareMovie() {
-    navigate("/share-movie");
+    navigate("/share");
   }
 
   async function onLogout() {

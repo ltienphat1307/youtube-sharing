@@ -7,6 +7,7 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 
 import createSchema from "./schema";
+import { constants } from "./constants";
 
 // register 3rd party IOC container
 TypeORM.useContainer(Container);
@@ -29,8 +30,6 @@ const bootstrap = async () => {
     app.use(cors(corsConfig));
     app.use(cookieParser());
 
-    const port = 3000;
-
     // Create GraphQL server
     const server = new ApolloServer({
       schema,
@@ -40,6 +39,7 @@ const bootstrap = async () => {
     });
     server.applyMiddleware({ app, cors: corsConfig });
 
+    const port = constants.port;
     app.listen({ port }, () => {
       console.log(
         `🚀 Server ready at http://localhost:${port}${server.graphqlPath}`

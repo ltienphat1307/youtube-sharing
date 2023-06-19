@@ -1,33 +1,47 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import styled from "styled-components";
+import * as yup from "yup";
 import { useMutation } from "@apollo/react-hooks";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { navigate } from "gatsby";
 
-import { LOGIN, ME } from "../../apollo/graphql/useAuth";
+import { SHARE_MOVIE } from "../../apollo/graphql/useMovie";
 import { catchGraphqlError } from "../../apollo/graphql/catchGraphqlError";
 import { PrimaryButton } from "../../components/Button";
-import { Link } from "../../components/Link";
 import { Form } from "../../components/Form";
 
 type FormValues = {
-  email: string;
-  password: string;
+  url: string;
 };
 
-const Login: React.FC = () => {
+const validationSchema = yup
+  .object({
+    url: yup
+      .string()
+      .matches(
+        /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/,
+        { message: "Please enter valid Youtube URL" }
+      )
+      .default("This field is required"),
+  })
+  .required();
+
+export const ShareVideo: React.FC = () => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
-  } = useForm<FormValues>();
-  const [login] = useMutation(LOGIN);
+  } = useForm<FormValues>({ resolver: yupResolver(validationSchema) });
+  const [shareMovie] = useMutation(SHARE_MOVIE);
   const [error, setError] = useState("");
 
   async function onSubmit(data: FormValues) {
     try {
-      await login({ variables: { data }, refetchQueries: [{ query: ME }] });
-      navigate("/");
+      await shareMovie({
+        variables: { data: { url: data.url } },
+      });
+      reset();
     } catch (e) {
       const err = catchGraphqlError(e);
       setError(err);
@@ -38,30 +52,19 @@ const Login: React.FC = () => {
     <div>
       <Form onSubmit={handleSubmit(onSubmit)}>
         <fieldset>
-          <legend>Login</legend>
+          <legend>Share a movie</legend>
           <div className="form-row">
-            <label>Email</label>
-            <input type="email" {...register("email", { required: true })} />
-            {errors.email && (
-              <div className="form-errors">{errors.email.message}</div>
-            )}
-          </div>
-          <div className="form-row">
-            <label>password</label>
-            <input
-              type="password"
-              {...register("password", { required: true })}
-            />
-            {errors.password && (
-              <div className="form-errors">{errors.password.message}</div>
+            <label>Youtube URL</label>
+            <input {...register("url")} />
+            {errors.url && (
+              <div className="form-errors">{errors.url.message}</div>
             )}
           </div>
 
           <div className="form-row submit">
             <PrimaryButton className="btn-submit" type="submit">
-              Login
+              Share
             </PrimaryButton>
-            <Link href="/sign-up">Sign up</Link>
           </div>
           {error && <div className="form-errors">{error}</div>}
         </fieldset>
@@ -69,5 +72,3 @@ const Login: React.FC = () => {
     </div>
   );
 };
-
-export default Login;

@@ -7,6 +7,7 @@ import { SCREEN_SIZE } from "../styled-variables";
 import { Link } from "../Link";
 import { ME } from "../../apollo/graphql/useAuth";
 import Actions from "./Actions";
+import { IUser } from "../../types/IUser";
 
 const Styled = styled.div`
   width: 100%;
@@ -53,18 +54,12 @@ const Styled = styled.div`
   }
 `;
 
-interface IUser {
-  id: number;
-  email: string;
-}
-
 const Header: React.FC = () => {
   const getMeResp = useQuery(ME, { fetchPolicy: "cache-and-network" });
   const [user, setUser] = useState<IUser | undefined>(undefined);
 
   useEffect(() => {
     if (getMeResp) {
-      console.log(getMeResp);
       setUser(getMeResp.data && getMeResp.data.me);
     }
   }, [getMeResp]);

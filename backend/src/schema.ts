@@ -1,11 +1,13 @@
 import { buildSchema } from "type-graphql";
 
 import { Auth } from "./modules/auth";
-import { Me } from "./modules/auth/Me";
+import { YoutubeSchema } from "./modules/youtube/index";
+
+const resolvers: any = [...Auth, ...YoutubeSchema];
 
 export default (Container: any) => {
   return buildSchema({
     container: Container,
-    resolvers: [Me, ...Auth],
+    resolvers,
   });
 };
