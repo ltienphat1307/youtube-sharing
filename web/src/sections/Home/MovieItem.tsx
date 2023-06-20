@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { SCREEN_SIZE } from "../../components/styled-variables";
 
 import { IMovie } from "../../types/IMovie";
 
@@ -43,6 +44,17 @@ const Styled = styled.div`
       overflow: hidden;
       max-height: 192px;
       line-height: 32px;
+    }
+  }
+
+  @media screen and (max-width: ${SCREEN_SIZE.tablet}) {
+    display: block;
+    padding: 15px;
+    margin-bottom: 15px;
+
+    .info-wrapper {
+      padding-left: 0;
+      margin-top: 15px;
     }
   }
 `;

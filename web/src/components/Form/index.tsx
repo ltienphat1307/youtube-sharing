@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const Form = styled.form`
-  width: 500px;
+  max-width: 500px;
   margin: 50px auto;
 
   fieldset {

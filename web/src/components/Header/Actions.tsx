@@ -10,6 +10,7 @@ import { IUser } from "../../types/IUser";
 import { IMovie } from "../../types/IMovie";
 import { initSocket } from "../../socket";
 import { toast } from "../Toast";
+import { SCREEN_SIZE } from "../styled-variables";
 
 const Styled = styled.div`
   display: flex;
@@ -17,6 +18,15 @@ const Styled = styled.div`
 
   .btn-share {
     margin: 0 15px;
+  }
+
+  @media screen and (max-width: ${SCREEN_SIZE.tablet}) {
+    flex-direction: column;
+
+    button,
+    div {
+      margin: 15px 0;
+    }
   }
 `;
 
@@ -51,7 +61,7 @@ const Actions: React.FC<Props> = ({ user }) => {
   }
 
   return (
-    <Styled>
+    <Styled className="actions">
       <div>Welcome {user.email}</div>
       <PrimaryButton className="btn-share" onClick={shareMovie}>
         Share a move

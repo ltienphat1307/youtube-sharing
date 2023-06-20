@@ -51,6 +51,17 @@ const Styled = styled.div`
   }
 
   @media screen and (max-width: ${SCREEN_SIZE.tablet}) {
+    height: auto;
+
+    .header-content {
+      flex-direction: column;
+      padding: 15px;
+
+      .action-wrapper {
+        display: block;
+        margin-left: unset;
+      }
+    }
   }
 `;
 
