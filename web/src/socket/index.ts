@@ -5,6 +5,7 @@ let socket: Socket;
 
 export const initSocket = () => {
   if (!socket) {
+    console.log("initSocket");
     socket = io(constants.SOCKET_SERVER_URL);
 
     function onConnect() {

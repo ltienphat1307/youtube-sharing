@@ -39,6 +39,17 @@ const bootstrap = async () => {
       context: ({ req, res }) => ({ req, res }),
       debug: true,
       playground: true,
+      formatError: (err) => {
+        // Don't give the specific errors to the client.
+        // if (err.extensions?.code === "GRAPHQL_VALIDATION_FAILED") {
+        //   throw new Error(
+        //     "Module not found or wrong field in response/request"
+        //   );
+        // }
+        // Otherwise return the original error. The error can also
+        // be manipulated in other ways, as long as it's returned.
+        return err;
+      },
     });
     graphqlServer.applyMiddleware({ app, cors: constants.corsConfig });
 

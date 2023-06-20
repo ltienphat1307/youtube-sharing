@@ -4,7 +4,7 @@ import { ApolloError } from "apollo-server-express";
 
 import { User } from "../../models/User";
 import { UserRepository } from "../../repositories/UserRepository";
-import { LoginInput } from "./input/LoginInput";
+import { UserInput } from "./input/UserInput";
 import { hashPassword } from "../../utils/passwordHandler";
 
 @Resolver((_type) => User)
@@ -14,7 +14,7 @@ export class SignUp {
   ) {}
 
   @Mutation((_type) => User)
-  public async signUp(@Arg("data") inputData: LoginInput): Promise<User> {
+  public async signUp(@Arg("data") inputData: UserInput): Promise<User> {
     let user = await this.userRepository.findOne({ email: inputData.email });
 
     if (user) {

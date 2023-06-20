@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React, { memo, useEffect } from "react";
 import styled from "styled-components";
 import { useMutation } from "@apollo/react-hooks";
 import { navigate } from "gatsby";
@@ -34,17 +34,27 @@ interface Props {
   user: IUser;
 }
 
-function handleNotification() {
+function handleNotification(user: IUser) {
   const socket = initSocket();
+  console.log("handleNotification");
   socket.on("send-shared-movie", (newMovie: IMovie) => {
-    toast.success(newMovie);
+    if (user.id != newMovie.sharedByUser.id) {
+      toast.success(newMovie);
+    }
   });
 }
 
-handleNotification();
+let hasEnabledListener = false;
 
 const Actions: React.FC<Props> = ({ user }) => {
   const [logout] = useMutation(LOG_OUT);
+
+  useEffect(() => {
+    if (!hasEnabledListener) {
+      handleNotification(user);
+      hasEnabledListener = true;
+    }
+  }, []);
 
   function shareMovie() {
     navigate("/share");

@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useQuery } from "@apollo/react-hooks";
+import { useMutation } from "@apollo/react-hooks";
 
-import { ME } from "../../apollo/graphql/useAuth";
+import { SHARE_MOVIE } from "../../apollo/graphql/useMovie";
 import { PrimaryButton } from "../../components/Button";
 import { Form } from "../../components/Form";
-import { initSocket } from "../../socket";
+import { catchGraphqlError } from "../../apollo/graphql/catchGraphqlError";
 
 type FormValues = {
   url: string;
@@ -33,13 +33,18 @@ export const ShareVideo: React.FC = () => {
     formState: { errors },
   } = useForm<FormValues>({ resolver: yupResolver(validationSchema) });
   const [error, setError] = useState("");
-  const getMeResp = useQuery(ME, { fetchPolicy: "cache-and-network" });
-  const user = getMeResp.data && getMeResp.data.me;
-  const socket = initSocket();
+  const [shareMovie] = useMutation(SHARE_MOVIE);
 
   async function onSubmit(data: FormValues) {
-    socket?.emit("share-movie", { userId: user.id, url: data.url });
-    reset();
+    try {
+      await shareMovie({
+        variables: { data: { url: data.url } },
+      });
+      reset();
+    } catch (ex) {
+      const err = catchGraphqlError(ex);
+      setError(err);
+    }
   }
 
   return (

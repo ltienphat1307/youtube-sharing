@@ -5,7 +5,7 @@ import { ApolloError } from "apollo-server-express";
 import { User } from "../../models/User";
 import { UserRepository } from "../../repositories/UserRepository";
 import { UserTokenRepository } from "../../repositories/UserTokenRepository";
-import { LoginInput } from "./input/LoginInput";
+import { UserInput } from "./input/UserInput";
 import { verifyPassword } from "../../utils/passwordHandler";
 import { createUserToken } from "./auth";
 import { setApiToken } from "../../utils/setApiToken";
@@ -20,7 +20,7 @@ export class Login {
 
   @Mutation((_type) => User)
   public async login(
-    @Arg("data") inputData: LoginInput,
+    @Arg("data") inputData: UserInput,
     @Ctx() ctx: AppContext
   ): Promise<User> {
     const user = await this.userRepository.findOne({ email: inputData.email });
