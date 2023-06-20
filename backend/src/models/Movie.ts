@@ -12,7 +12,7 @@ import { User } from "./User";
 
 @ObjectType()
 @Entity()
-export class Youtube {
+export class Movie {
   @Field((_type) => Number)
   @PrimaryGeneratedColumn()
   public readonly id!: number;

@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import { useQuery } from "@apollo/react-hooks";
+import { navigate } from "gatsby";
 
 import logoImg from "../../images/icons/house.svg";
 import { SCREEN_SIZE } from "../styled-variables";
 import { Link } from "../Link";
 import { ME } from "../../apollo/graphql/useAuth";
 import Actions from "./Actions";
-import { IUser } from "../../types/IUser";
 
 const Styled = styled.div`
   width: 100%;
@@ -54,17 +54,31 @@ const Styled = styled.div`
   }
 `;
 
-const Header: React.FC = () => {
-  const getMeResp = useQuery(ME, { fetchPolicy: "cache-and-network" });
-  const [user, setUser] = useState<IUser | undefined>(undefined);
+const REQUIRED_LOGIN = {
+  sharePage: RegExp(/^\/share-movie\/?.*$/),
+};
 
-  useEffect(() => {
-    if (getMeResp) {
-      setUser(getMeResp.data && getMeResp.data.me);
-    }
-  }, [getMeResp]);
+const getLocationPath = () => {
+  return typeof window !== "undefined" ? window.location.pathname : "/";
+};
+
+function requiredLogin(): boolean {
+  const pathName = getLocationPath();
+
+  return REQUIRED_LOGIN.sharePage.test(pathName);
+}
+
+const Header: React.FC = () => {
+  const isRequiredLogin = requiredLogin();
+  const getMeResp = useQuery(ME);
+  const user = getMeResp.data && getMeResp.data.me;
 
   if (!getMeResp.called || getMeResp.loading) {
+    return null;
+  }
+
+  if (isRequiredLogin && !user) {
+    navigate("/login");
     return null;
   }
 

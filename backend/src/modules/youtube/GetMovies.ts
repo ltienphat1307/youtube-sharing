@@ -1,19 +1,19 @@
 import { Ctx, Query, Resolver } from "type-graphql";
 import { InjectRepository } from "typeorm-typedi-extensions";
 
-import { Youtube } from "../../models/Youtube";
-import { YoutubeRepository } from "../../repositories/YoutubeRepository";
+import { Movie } from "../../models/Movie";
+import { MovieRepository } from "../../repositories/MovieRepository";
 import { AppContext } from "../../types/AppContext";
 
-@Resolver((_type) => Youtube)
+@Resolver((_type) => Movie)
 export class GetMovies {
   constructor(
-    @InjectRepository() private readonly youtubeRepository: YoutubeRepository
+    @InjectRepository() private readonly movieRepository: MovieRepository
   ) {}
 
-  @Query((_type) => [Youtube])
-  public async getMovies(@Ctx() ctx: AppContext): Promise<Youtube[]> {
-    const videos = await this.youtubeRepository.find({
+  @Query((_type) => [Movie])
+  public async getMovies(@Ctx() ctx: AppContext): Promise<Movie[]> {
+    const videos = await this.movieRepository.find({
       relations: ["sharedByUser"],
       order: {
         createdAt: "DESC",

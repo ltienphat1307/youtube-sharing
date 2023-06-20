@@ -5,15 +5,17 @@ import { ApolloServer } from "apollo-server-express";
 import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
+import http from "http";
 
 import createSchema from "./schema";
 import { constants } from "./constants";
-
-// register 3rd party IOC container
-TypeORM.useContainer(Container);
+import { initSocket } from "./socket";
 
 const bootstrap = async () => {
   try {
+    // register 3rd party IOC container
+    TypeORM.useContainer(Container);
+
     // create TypeORM connection
     await TypeORM.createConnection();
 
@@ -21,28 +23,29 @@ const bootstrap = async () => {
     const schema = await createSchema(Container);
 
     const app = express();
-    const corsConfig = {
-      methods: "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS",
-      credentials: true,
-      origin: [/localhost*/],
-    };
-
-    app.use(cors(corsConfig));
+    app.use(cors(constants.corsConfig));
     app.use(cookieParser());
 
+    const httpServer = http.createServer(app);
+    initSocket(httpServer);
+
+    httpServer.listen(3001, () => {
+      console.log("listening on *:3001");
+    });
+
     // Create GraphQL server
-    const server = new ApolloServer({
+    const graphqlServer = new ApolloServer({
       schema,
       context: ({ req, res }) => ({ req, res }),
       debug: true,
       playground: true,
     });
-    server.applyMiddleware({ app, cors: corsConfig });
+    graphqlServer.applyMiddleware({ app, cors: constants.corsConfig });
 
     const port = constants.port;
     app.listen({ port }, () => {
       console.log(
-        `🚀 Server ready at http://localhost:${port}${server.graphqlPath}`
+        `🚀 Server ready at http://localhost:${port}${graphqlServer.graphqlPath}`
       );
     });
   } catch (err) {
