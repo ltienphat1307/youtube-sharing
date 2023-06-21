@@ -16,13 +16,13 @@ export class Logout {
     const apiToken: string = ctx.req.cookies["api-token"];
 
     if (!apiToken) {
-      return true;
+      return false;
     }
 
-    const userToken = await this.userTokenRepo.findOne({ apiToken });
+    const userToken = await this.userTokenRepo.findOne({ where: { apiToken } });
 
     if (!userToken) {
-      return true;
+      return false;
     }
 
     await this.userTokenRepo.remove(userToken);

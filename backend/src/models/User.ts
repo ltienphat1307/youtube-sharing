@@ -14,21 +14,22 @@ export class User {
   @PrimaryGeneratedColumn()
   public readonly id!: number;
 
-  @Field()
+  @Field((_type) => String)
   @Column({
     type: "varchar",
     unique: true,
   })
   public email!: string;
 
-  @Column()
+  @Field((_type) => String)
+  @Column({ type: "varchar" })
   public password!: string;
 
-  @Field()
+  @Field((_type) => Date)
   @CreateDateColumn()
   public createdAt!: Date;
 
-  @Field()
+  @Field((_type) => Date)
   @UpdateDateColumn()
   public updatedAt!: Date;
 }

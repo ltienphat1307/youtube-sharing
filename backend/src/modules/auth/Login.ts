@@ -23,7 +23,9 @@ export class Login {
     @Arg("data") inputData: UserInput,
     @Ctx() ctx: AppContext
   ): Promise<User> {
-    const user = await this.userRepository.findOne({ email: inputData.email });
+    const user = await this.userRepository.findOne({
+      where: { email: inputData.email },
+    });
 
     if (!user) {
       throw new ApolloError(`Wrong credentials`, "BAD_REQUEST");

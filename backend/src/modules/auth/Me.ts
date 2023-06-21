@@ -1,3 +1,4 @@
+import "reflect-metadata";
 import { Ctx, Query, Resolver } from "type-graphql";
 import { InjectRepository } from "typeorm-typedi-extensions";
 
@@ -13,6 +14,10 @@ export class Me {
 
   @Query((_type) => User, { nullable: true })
   public async me(@Ctx() ctx: AppContext): Promise<User | null> {
-    return this.userTokenRepo.getUserByToken(ctx.req.cookies["api-token"]);
+    const me = await this.userTokenRepo.getUserByToken(
+      ctx.req.cookies["api-token"]
+    );
+
+    return me;
   }
 }

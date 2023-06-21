@@ -22,7 +22,7 @@ export class UserToken {
   @JoinColumn({ name: "userId" })
   public user!: User;
 
-  @Field()
+  @Field((_type) => String)
   @Column({
     type: "varchar",
     comment: "api jwt token",
@@ -31,11 +31,11 @@ export class UserToken {
   })
   public apiToken!: string;
 
-  @Field()
+  @Field((_type) => Date)
   @CreateDateColumn()
   public createdAt!: Date;
 
-  @Field()
+  @Field((_type) => Date)
   @UpdateDateColumn()
   public updatedAt!: Date;
 }

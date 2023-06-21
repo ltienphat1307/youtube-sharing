@@ -7,8 +7,10 @@ module.exports = {
   database: process.env.DATABASE_NAME,
   synchronize: true,
   logger: "advanced-console",
-  logging: process.env.NODE_ENV === "production" ? ["error", "warn"] : "all",
+  logging: ["error", "warn"],
   cache: true,
   dropSchema: false,
   entities: ["dist/models/*.js"],
+  migrationsTableName: "migration_table",
+  migrations: ["dist/migrations/*.js"],
 };

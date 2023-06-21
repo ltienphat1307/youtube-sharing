@@ -1,11 +1,7 @@
 import { Server as SocketSever, Socket } from "socket.io";
-import { matches } from "class-validator";
-import { getCustomRepository } from "typeorm";
 
 import { constants } from "../constants";
 import { Movie } from "../models/Movie";
-import { MovieRepository } from "../repositories/MovieRepository";
-import { UserRepository } from "../repositories/UserRepository";
 
 let io: SocketSever;
 

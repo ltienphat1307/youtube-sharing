@@ -15,7 +15,9 @@ export class SignUp {
 
   @Mutation((_type) => User)
   public async signUp(@Arg("data") inputData: UserInput): Promise<User> {
-    let user = await this.userRepository.findOne({ email: inputData.email });
+    let user = await this.userRepository.findOne({
+      where: { email: inputData.email },
+    });
 
     if (user) {
       throw new ApolloError(
