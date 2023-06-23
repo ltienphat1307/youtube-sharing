@@ -11,7 +11,7 @@ You’ll need to install Gatsby globally to run this project
 
 ## Install Node modules
 
-Move to the root folder of this project and run
+At here, run the below command to install node package modules
 
 `npm install`
 
@@ -25,3 +25,9 @@ Move to the root folder of this project and run
 The below command will serve the page with url is http://localhost:8000/
 
 `npm run dev`
+
+## Testing
+
+To run the unit test, please try to follow the below command
+
+`npm run test`

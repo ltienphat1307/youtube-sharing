@@ -6,7 +6,7 @@
 
 ## Install Node modules
 
-In the root folder of this project and run
+At here, run the below command to install node package modules
 
 `npm install`
 
@@ -14,10 +14,16 @@ In the root folder of this project and run
 
 - create .env in root folder
 - check the .env.sample file to define properly value for .env file
-- check carefully mysql credential
+- check carefully mysql's credential
 
 ## Start the site
 
 The below command will serve the page with url is http://localhost:3000/ and socket server is http://localhost:3001 by default
 
 `npm run start`
+
+## Testing
+
+To run the unit test, please try to follow the below command
+
+`npm run test`
