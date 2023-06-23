@@ -5,7 +5,7 @@ module.exports = {
   username: process.env.DATABASE_USER,
   password: process.env.DATABASE_PASSWORD,
   database: process.env.DATABASE_NAME,
-  synchronize: true,
+  synchronize: false,
   logger: "advanced-console",
   logging: ["error", "warn"],
   cache: true,
@@ -13,4 +13,7 @@ module.exports = {
   entities: ["dist/models/*.js"],
   migrationsTableName: "migration_table",
   migrations: ["dist/migrations/*.js"],
+  cli: {
+    migrationsDir: "src/migrations",
+  },
 };

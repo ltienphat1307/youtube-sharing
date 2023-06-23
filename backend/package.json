@@ -13,7 +13,9 @@
     "run-migrations": "typeorm migration:run",
     "revert-migrations": "ypeorm migration:revert",
     "jest": "jest",
-    "test": "npm-run-all build jest"
+    "test": "npm-run-all build jest",
+    "prestart": "npm-run-all build run-migrations",
+    "start": "node dist/index"
   },
   "author": "",
   "license": "ISC",

@@ -1,4 +1,4 @@
-import React, { memo, useEffect } from "react";
+import React, { memo } from "react";
 import styled from "styled-components";
 import { useMutation } from "@apollo/react-hooks";
 import { navigate } from "gatsby";
@@ -7,9 +7,6 @@ import { catchGraphqlError } from "../../apollo/graphql/catchGraphqlError";
 import { LOG_OUT, ME } from "../../apollo/graphql/useAuth";
 import { PrimaryButton } from "../Button/PrimaryButton";
 import { IUser } from "../../types/IUser";
-import { IMovie } from "../../types/IMovie";
-import { initSocket } from "../../socket";
-import { toast } from "../Toast";
 import { SCREEN_SIZE } from "../styled-variables";
 
 const Styled = styled.div`
@@ -34,27 +31,8 @@ interface Props {
   user: IUser;
 }
 
-function handleNotification(user: IUser) {
-  const socket = initSocket();
-
-  socket.on("send-shared-movie", (newMovie: IMovie) => {
-    if (user.id != newMovie.sharedByUser.id) {
-      toast.shareVideoSuccess(newMovie);
-    }
-  });
-}
-
-let hasEnabledListener = false;
-
 const UserInfo: React.FC<Props> = ({ user }) => {
   const [logout] = useMutation(LOG_OUT);
-
-  useEffect(() => {
-    if (!hasEnabledListener) {
-      handleNotification(user);
-      hasEnabledListener = true;
-    }
-  }, []);
 
   function shareMovie() {
     navigate("/share");
