@@ -4,24 +4,6 @@ import styled from "styled-components";
 import "react-toastify/dist/ReactToastify.css";
 import { IMovie } from "../../types/IMovie";
 
-const index = () => {
-  return (
-    <ToastContainer
-      position="top-center"
-      autoClose={2000}
-      hideProgressBar={false}
-      newestOnTop={false}
-      closeOnClick
-      rtl={false}
-      pauseOnFocusLoss
-      draggable
-      pauseOnHover
-    />
-  );
-};
-
-export default index;
-
 interface Props {
   movie: IMovie;
 }
@@ -47,8 +29,25 @@ const Message: React.FC<Props> = ({ movie }) => {
   );
 };
 
+export const Toast = () => {
+  return (
+    <ToastContainer
+      position="top-center"
+      autoClose={2000}
+      hideProgressBar={false}
+      newestOnTop={false}
+      closeOnClick
+      rtl={false}
+      pauseOnFocusLoss
+      draggable
+      pauseOnHover
+    />
+  );
+};
+
 export const toast = {
-  success: (movie: IMovie) => {
+  ...reactToast,
+  shareVideoSuccess: (movie: IMovie) => {
     reactToast.success(<Message movie={movie} />);
   },
 };

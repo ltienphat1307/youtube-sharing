@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React from "react";
 import styled from "styled-components";
 import { useQuery } from "@apollo/react-hooks";
 import { navigate } from "gatsby";
@@ -7,7 +7,7 @@ import logoImg from "../../images/icons/house.svg";
 import { SCREEN_SIZE } from "../styled-variables";
 import { Link } from "../Link";
 import { ME } from "../../apollo/graphql/useAuth";
-import Actions from "./Actions";
+import UserInfo from "./UserInfo";
 
 const Styled = styled.div`
   width: 100%;
@@ -79,7 +79,7 @@ function requiredLogin(): boolean {
   return REQUIRED_LOGIN.sharePage.test(pathName);
 }
 
-const Header: React.FC = () => {
+export const Header: React.FC = () => {
   const isRequiredLogin = requiredLogin();
   const getMeResp = useQuery(ME);
   const user = getMeResp.data && getMeResp.data.me;
@@ -104,7 +104,7 @@ const Header: React.FC = () => {
         </div>
         <div className="action-wrapper">
           {user ? (
-            <Actions user={user} />
+            <UserInfo user={user} />
           ) : (
             <>
               <Link href="/sign-up">Sign up</Link>|
@@ -116,5 +116,3 @@ const Header: React.FC = () => {
     </Styled>
   );
 };
-
-export default Header;

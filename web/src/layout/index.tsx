@@ -1,8 +1,8 @@
 import React from "react";
 import style from "styled-components";
 
-import Header from "../components/Header";
-import Toast from "../components/Toast";
+import { Header } from "../components/Header";
+import { Toast } from "../components/Toast";
 
 import "./fonts.css";
 import "./global.css";

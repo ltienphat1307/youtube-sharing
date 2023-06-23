@@ -1,5 +1,8 @@
 import React from "react";
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
+import "cross-fetch/polyfill";
+import "core-js";
+
 import { constants } from "../constants";
 
 const client = new ApolloClient({

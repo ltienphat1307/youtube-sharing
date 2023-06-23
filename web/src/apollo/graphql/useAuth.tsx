@@ -4,6 +4,7 @@ export const LOGIN = gql`
   mutation Login($data: UserInput!) {
     login(data: $data) {
       id
+      email
     }
   }
 `;
@@ -12,6 +13,7 @@ export const SIGN_UP = gql`
   mutation SignUp($data: UserInput!) {
     signUp(data: $data) {
       id
+      email
     }
   }
 `;

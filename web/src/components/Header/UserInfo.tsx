@@ -5,7 +5,7 @@ import { navigate } from "gatsby";
 
 import { catchGraphqlError } from "../../apollo/graphql/catchGraphqlError";
 import { LOG_OUT, ME } from "../../apollo/graphql/useAuth";
-import { PrimaryButton } from "../Button";
+import { PrimaryButton } from "../Button/PrimaryButton";
 import { IUser } from "../../types/IUser";
 import { IMovie } from "../../types/IMovie";
 import { initSocket } from "../../socket";
@@ -36,17 +36,17 @@ interface Props {
 
 function handleNotification(user: IUser) {
   const socket = initSocket();
-  console.log("handleNotification");
+
   socket.on("send-shared-movie", (newMovie: IMovie) => {
     if (user.id != newMovie.sharedByUser.id) {
-      toast.success(newMovie);
+      toast.shareVideoSuccess(newMovie);
     }
   });
 }
 
 let hasEnabledListener = false;
 
-const Actions: React.FC<Props> = ({ user }) => {
+const UserInfo: React.FC<Props> = ({ user }) => {
   const [logout] = useMutation(LOG_OUT);
 
   useEffect(() => {
@@ -71,7 +71,7 @@ const Actions: React.FC<Props> = ({ user }) => {
   }
 
   return (
-    <Styled className="actions">
+    <Styled className="user-info">
       <div>Welcome {user.email}</div>
       <PrimaryButton className="btn-share" onClick={shareMovie}>
         Share a move
@@ -81,4 +81,4 @@ const Actions: React.FC<Props> = ({ user }) => {
   );
 };
 
-export default memo(Actions);
+export default memo(UserInfo);

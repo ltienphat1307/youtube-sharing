@@ -11,22 +11,19 @@ const Wrapper = styled.div`
   max-width: 960px;
 `;
 
-const Home = () => {
+export const Home = () => {
   const { data, called, loading } = useQuery(GET_MOVIES);
 
   if (!called || loading) {
     return null;
   }
 
-  const movies: IMovie[] = data.getMovies;
+  const movies: IMovie[] = data && data.getMovies;
 
   return (
     <Wrapper>
-      {movies.map((movie) => (
-        <MovieItem key={movie.id} movie={movie} />
-      ))}
+      {movies &&
+        movies.map((movie) => <MovieItem key={movie.id} movie={movie} />)}
     </Wrapper>
   );
 };
-
-export default Home;

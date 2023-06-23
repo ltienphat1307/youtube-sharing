@@ -5,9 +5,10 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useMutation } from "@apollo/react-hooks";
 
 import { SHARE_MOVIE } from "../../apollo/graphql/useMovie";
-import { PrimaryButton } from "../../components/Button";
+import { PrimaryButton } from "../../components/Button/PrimaryButton";
 import { Form } from "../../components/Form";
 import { catchGraphqlError } from "../../apollo/graphql/catchGraphqlError";
+import { toast } from "../../components/Toast";
 
 type FormValues = {
   url: string;
@@ -17,11 +18,11 @@ const validationSchema = yup
   .object({
     url: yup
       .string()
+      .required("This field is required")
       .matches(
         /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/,
         { message: "Please enter valid Youtube URL" }
-      )
-      .default("This field is required"),
+      ),
   })
   .required();
 
@@ -41,6 +42,7 @@ export const ShareVideo: React.FC = () => {
         variables: { data: { url: data.url } },
       });
       reset();
+      toast.success("Share video successfully");
     } catch (ex) {
       const err = catchGraphqlError(ex);
       setError(err);
@@ -65,7 +67,11 @@ export const ShareVideo: React.FC = () => {
               Share
             </PrimaryButton>
           </div>
-          {error && <div className="form-errors">{error}</div>}
+          {error && (
+            <div aria-label="server-error" className="form-errors">
+              {error}
+            </div>
+          )}
         </fieldset>
       </Form>
     </div>

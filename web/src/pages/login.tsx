@@ -1,7 +1,7 @@
 import React from "react";
 import type { HeadFC, PageProps } from "gatsby";
 
-import Login from "../sections/Login";
+import { Login } from "../sections/Login";
 
 const LoginPage: React.FC<PageProps> = () => {
   return <Login />;

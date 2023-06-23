@@ -7,7 +7,7 @@ import { navigate } from "gatsby";
 
 import { SIGN_UP } from "../../apollo/graphql/useAuth";
 import { catchGraphqlError } from "../../apollo/graphql/catchGraphqlError";
-import { PrimaryButton } from "../../components/Button";
+import { PrimaryButton } from "../../components/Button/PrimaryButton";
 import { Link } from "../../components/Link";
 import { Form } from "../../components/Form";
 
@@ -19,19 +19,22 @@ type FormValues = {
 
 const validationSchema = yup
   .object({
-    email: yup.string().required("Required").default("This field is required"),
+    email: yup
+      .string()
+      .required("This field is required")
+      .email("invalid email"),
     password: yup
       .string()
-      .required("Required")
-      .default("This field is required"),
+      .required("This field is required")
+      .min(6, "Password must be at least 6 characters"),
     confirmPassword: yup
       .string()
-      .required("Required")
+      .required("This field is required")
       .oneOf([yup.ref("password")], "Passwords do not match! Try again…"),
   })
   .required();
 
-const SignUp: React.FC = () => {
+export const SignUp: React.FC = () => {
   const {
     register,
     handleSubmit,
@@ -60,29 +63,39 @@ const SignUp: React.FC = () => {
           <legend>Sign up</legend>
           <div className="form-row">
             <label>Email</label>
-            <input type="email" {...register("email", { required: true })} />
+            <input
+              aria-label="email"
+              type="email"
+              {...register("email", { required: true })}
+            />
             {errors.email && (
-              <div className="form-errors">{errors.email.message}</div>
+              <div aria-label="errors" className="form-errors">
+                {errors.email.message}
+              </div>
             )}
           </div>
           <div className="form-row">
             <label>Password</label>
             <input
+              aria-label="password"
               type="password"
               {...register("password", { required: true })}
             />
             {errors.password && (
-              <div className="form-errors">{errors.password.message}</div>
+              <div aria-label="errors" className="form-errors">
+                {errors.password.message}
+              </div>
             )}
           </div>
           <div className="form-row">
             <label>Confirm password</label>
             <input
+              aria-label="confirmPassword"
               type="password"
               {...register("confirmPassword", { required: true })}
             />
             {errors.confirmPassword && (
-              <div className="form-errors">
+              <div aria-label="errors" className="form-errors">
                 {errors.confirmPassword.message}
               </div>
             )}
@@ -93,11 +106,13 @@ const SignUp: React.FC = () => {
             </PrimaryButton>
             <Link href="/login">Login</Link>
           </div>
-          {error && <div className="form-errors">{error}</div>}
+          {error && (
+            <div aria-label="server-error" className="form-errors">
+              {error}
+            </div>
+          )}
         </fieldset>
       </Form>
     </div>
   );
 };
-
-export default SignUp;
