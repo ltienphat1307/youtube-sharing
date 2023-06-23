@@ -3,7 +3,7 @@ import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { MockedProvider } from "@apollo/client/testing";
 import { GraphQLError } from "graphql";
 
-import ApolloProvider from "../../../apollo/ApolloProvider";
+import { AppApolloProvider } from "../../../apollo/ApolloProvider";
 import { SHARE_MOVIE } from "../../../apollo/graphql/useMovie";
 import { ShareVideo } from "../../../sections/ShareVideo";
 import { toast } from "../../../components/Toast";
@@ -40,9 +40,9 @@ function createMockData(error?: string) {
 describe("Share Video Page", () => {
   it("Should validate input fields", async () => {
     render(
-      <ApolloProvider>
+      <AppApolloProvider>
         <ShareVideo />
-      </ApolloProvider>
+      </AppApolloProvider>
     );
 
     const urlInput = screen.getByRole("textbox");
@@ -68,11 +68,11 @@ describe("Share Video Page", () => {
     const mocks = createMockData(mockedError);
 
     render(
-      <ApolloProvider>
+      <AppApolloProvider>
         <MockedProvider mocks={mocks} addTypename={false}>
           <ShareVideo />
         </MockedProvider>
-      </ApolloProvider>
+      </AppApolloProvider>
     );
 
     const urlInput = screen.getByRole("textbox");
@@ -94,11 +94,11 @@ describe("Share Video Page", () => {
     const mocks = createMockData();
 
     render(
-      <ApolloProvider>
+      <AppApolloProvider>
         <MockedProvider mocks={mocks} addTypename={false}>
           <ShareVideo />
         </MockedProvider>
-      </ApolloProvider>
+      </AppApolloProvider>
     );
 
     const urlInput = screen.getByRole("textbox");

@@ -4,9 +4,11 @@ import "jest-styled-components";
 import "@testing-library/jest-dom";
 import { MockedProvider } from "@apollo/client/testing";
 
-import ApolloProvider from "../../../apollo/ApolloProvider";
+import { AppApolloProvider } from "../../../apollo/ApolloProvider";
 import { GET_MOVIES } from "../../../apollo/graphql/useMovie";
+import { ME } from "../../../apollo/graphql/useAuth";
 import { IMovie } from "../../../types/IMovie";
+import { IUser } from "../../../types/IUser";
 import { Home } from "../../../sections/Home";
 
 const mockedData: IMovie[] = [
@@ -22,7 +24,10 @@ const mockedData: IMovie[] = [
     },
   },
 ];
-
+const mockedUser: IUser = {
+  id: 1,
+  email: "phat@gmail.com",
+};
 const mocks = [
   {
     request: {
@@ -35,16 +40,27 @@ const mocks = [
       },
     },
   },
+  {
+    request: {
+      query: ME,
+      variables: {},
+    },
+    result: {
+      data: {
+        me: mockedUser,
+      },
+    },
+  },
 ];
 
 describe("Home Page", () => {
   it("Should render the list of movie items", async () => {
     render(
-      <ApolloProvider>
+      <AppApolloProvider>
         <MockedProvider mocks={mocks} addTypename={false}>
           <Home />
         </MockedProvider>
-      </ApolloProvider>
+      </AppApolloProvider>
     );
 
     const result = await screen.findByText(mockedData[0].title);
@@ -53,9 +69,9 @@ describe("Home Page", () => {
 
   it("Should render nothing", async () => {
     render(
-      <ApolloProvider>
+      <AppApolloProvider>
         <Home />
-      </ApolloProvider>
+      </AppApolloProvider>
     );
 
     const result = screen.queryByText(mockedData[0].title);

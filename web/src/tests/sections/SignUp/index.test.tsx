@@ -4,7 +4,7 @@ import { MockedProvider } from "@apollo/client/testing";
 import { GraphQLError } from "graphql";
 import { navigate } from "gatsby";
 
-import ApolloProvider from "../../../apollo/ApolloProvider";
+import { AppApolloProvider } from "../../../apollo/ApolloProvider";
 import { SIGN_UP } from "../../../apollo/graphql/useAuth";
 import { IUser } from "../../../types/IUser";
 import { SignUp } from "../../../sections/SignUp";
@@ -41,9 +41,9 @@ function createMockData(error?: string) {
 describe("Sign Up Page", () => {
   it("Should validate input fields", async () => {
     render(
-      <ApolloProvider>
+      <AppApolloProvider>
         <SignUp />
-      </ApolloProvider>
+      </AppApolloProvider>
     );
 
     const passwordInput = screen.getByLabelText(/^password/i);
@@ -80,11 +80,11 @@ describe("Sign Up Page", () => {
     const mocks = createMockData(mockedError);
 
     render(
-      <ApolloProvider>
+      <AppApolloProvider>
         <MockedProvider mocks={mocks} addTypename={false}>
           <SignUp />
         </MockedProvider>
-      </ApolloProvider>
+      </AppApolloProvider>
     );
 
     const emailInput = screen.getByRole("textbox", { name: /email/i });
@@ -118,11 +118,11 @@ describe("Sign Up Page", () => {
     const mocks = createMockData();
 
     render(
-      <ApolloProvider>
+      <AppApolloProvider>
         <MockedProvider mocks={mocks} addTypename={false}>
           <SignUp />
         </MockedProvider>
-      </ApolloProvider>
+      </AppApolloProvider>
     );
 
     const emailInput = screen.getByRole("textbox", { name: /email/i });

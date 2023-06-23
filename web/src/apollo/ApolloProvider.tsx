@@ -1,3 +1,4 @@
+import "isomorphic-fetch";
 import React from "react";
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 import "cross-fetch/polyfill";
@@ -11,8 +12,6 @@ const client = new ApolloClient({
   credentials: "include",
 });
 
-const AppApolloProvider = ({ children }: any) => {
+export const AppApolloProvider = ({ children }: any) => {
   return <ApolloProvider client={client}>{children}</ApolloProvider>;
 };
-
-export default AppApolloProvider;

@@ -4,7 +4,7 @@ import { MockedProvider } from "@apollo/client/testing";
 import { GraphQLError } from "graphql";
 import { navigate } from "gatsby";
 
-import ApolloProvider from "../../../apollo/ApolloProvider";
+import { AppApolloProvider } from "../../../apollo/ApolloProvider";
 import { LOGIN, ME } from "../../../apollo/graphql/useAuth";
 import { IUser } from "../../../types/IUser";
 import { Login } from "../../../sections/Login";
@@ -53,11 +53,11 @@ describe("Login Page", () => {
     const mocks = createMockData();
 
     render(
-      <ApolloProvider>
+      <AppApolloProvider>
         <MockedProvider mocks={mocks} addTypename={false}>
           <Login />
         </MockedProvider>
-      </ApolloProvider>
+      </AppApolloProvider>
     );
 
     const btnSubmit = screen.getByRole("button");
@@ -96,11 +96,11 @@ describe("Login Page", () => {
     ];
 
     render(
-      <ApolloProvider>
+      <AppApolloProvider>
         <MockedProvider mocks={mocks} addTypename={false}>
           <Login />
         </MockedProvider>
-      </ApolloProvider>
+      </AppApolloProvider>
     );
 
     const btnSubmit = screen.getByRole("button");

@@ -4,7 +4,7 @@ import "jest-styled-components";
 import "@testing-library/jest-dom";
 import { MockedProvider } from "@apollo/client/testing";
 
-import ApolloProvider from "../../apollo/ApolloProvider";
+import { AppApolloProvider } from "../../apollo/ApolloProvider";
 import { ME } from "../../apollo/graphql/useAuth";
 import { IUser } from "../../types/IUser";
 
@@ -32,11 +32,11 @@ const mocks = [
 describe("Header", () => {
   it("Should see user info", async () => {
     render(
-      <ApolloProvider>
+      <AppApolloProvider>
         <MockedProvider mocks={mocks} addTypename={false}>
           <Header />
         </MockedProvider>
-      </ApolloProvider>
+      </AppApolloProvider>
     );
 
     const result = await screen.findByText(`Welcome ${mockedUser.email}`);
@@ -45,9 +45,9 @@ describe("Header", () => {
 
   it("Should not see user info", async () => {
     render(
-      <ApolloProvider>
+      <AppApolloProvider>
         <Header />
-      </ApolloProvider>
+      </AppApolloProvider>
     );
 
     const result = await screen.findByText("Sign up");

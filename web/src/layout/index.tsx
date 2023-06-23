@@ -3,6 +3,7 @@ import style from "styled-components";
 
 import { Header } from "../components/Header";
 import { Toast } from "../components/Toast";
+import { AppApolloProvider } from "../apollo/ApolloProvider";
 
 import "./fonts.css";
 import "./global.css";
@@ -13,14 +14,12 @@ const LayoutStyled = style.div`
   min-height: calc(100vh - 248px);
 `;
 
-const Layout = ({ children }: { children: any }): any => {
+export const Layout = ({ children }: { children: any }): any => {
   return (
-    <>
+    <AppApolloProvider>
       <Header />
       <LayoutStyled className="container">{children}</LayoutStyled>
       <Toast />
-    </>
+    </AppApolloProvider>
   );
 };
-
-export default Layout;

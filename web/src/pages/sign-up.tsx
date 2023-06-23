@@ -1,10 +1,15 @@
 import React from "react";
 import type { HeadFC, PageProps } from "gatsby";
 
+import { Layout } from "../layout";
 import { SignUp } from "../sections/SignUp";
 
 const SignUpPage: React.FC<PageProps> = () => {
-  return <SignUp />;
+  return (
+    <Layout>
+      <SignUp />
+    </Layout>
+  );
 };
 
 export default SignUpPage;
