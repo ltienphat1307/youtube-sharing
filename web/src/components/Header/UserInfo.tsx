@@ -8,6 +8,7 @@ import { LOG_OUT, ME } from "../../apollo/graphql/useAuth";
 import { PrimaryButton } from "../Button/PrimaryButton";
 import { IUser } from "../../types/IUser";
 import { SCREEN_SIZE } from "../styled-variables";
+import { NewMovieComing } from "./NewMovieComing";
 
 const Styled = styled.div`
   display: flex;
@@ -50,6 +51,7 @@ const UserInfo: React.FC<Props> = ({ user }) => {
 
   return (
     <Styled className="user-info">
+      <NewMovieComing />
       <div>Welcome {user.email}</div>
       <PrimaryButton className="btn-share" onClick={shareMovie}>
         Share a move

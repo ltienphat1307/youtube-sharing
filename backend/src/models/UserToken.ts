@@ -27,7 +27,7 @@ export class UserToken {
     type: "varchar",
     comment: "api jwt token",
     unique: true,
-    length: "1024",
+    length: "255",
   })
   public apiToken!: string;
 

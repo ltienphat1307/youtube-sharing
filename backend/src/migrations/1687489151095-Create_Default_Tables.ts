@@ -11,7 +11,7 @@ export class CreateDefaultTables1687489151095 implements MigrationInterface {
       `CREATE TABLE \`movie\` (\`id\` int NOT NULL AUTO_INCREMENT, \`videoId\` varchar(255) NOT NULL, \`title\` varchar(255) NOT NULL, \`description\` text NOT NULL, \`createdAt\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updatedAt\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`userId\` int NULL, PRIMARY KEY (\`id\`)) ENGINE=InnoDB`
     );
     await queryRunner.query(
-      `CREATE TABLE \`user_token\` (\`id\` int NOT NULL AUTO_INCREMENT, \`apiToken\` varchar(1024) NOT NULL COMMENT 'api jwt token', \`createdAt\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updatedAt\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`userId\` int NULL, UNIQUE INDEX \`IDX_392f80897e7c55e0d936cfb2c4\` (\`apiToken\`), PRIMARY KEY (\`id\`)) ENGINE=InnoDB`
+      `CREATE TABLE \`user_token\` (\`id\` int NOT NULL AUTO_INCREMENT, \`apiToken\` varchar(255) NOT NULL COMMENT 'api jwt token', \`createdAt\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updatedAt\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`userId\` int NULL, UNIQUE INDEX \`IDX_392f80897e7c55e0d936cfb2c4\` (\`apiToken\`), PRIMARY KEY (\`id\`)) ENGINE=InnoDB`
     );
     await queryRunner.query(
       `ALTER TABLE \`movie\` ADD CONSTRAINT \`FK_ec7ed42b2e89092919129bdf990\` FOREIGN KEY (\`userId\`) REFERENCES \`user\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`

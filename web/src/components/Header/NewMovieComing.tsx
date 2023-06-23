@@ -7,28 +7,23 @@ import { toast } from "../../components/Toast";
 import { IMovie } from "../../types/IMovie";
 import { ME } from "../../apollo/graphql/useAuth";
 
-function handleNotification(user: IUser, refetchMovie: any) {
+function handleNotification(user: IUser) {
   const socket = initSocket();
 
   socket.on("send-shared-movie", (newMovie: IMovie) => {
     if (user.id != newMovie.sharedByUser.id) {
       toast.shareVideoSuccess(newMovie);
-      refetchMovie();
     }
   });
 }
 
-interface Props {
-  refetchMovie: any;
-}
-
-export const NewMovieComing: React.FC<Props> = ({ refetchMovie }) => {
+export const NewMovieComing: React.FC = () => {
   const getMeResp = useQuery(ME);
   const user = getMeResp.data && getMeResp.data.me;
 
   useEffect(() => {
     if (user) {
-      handleNotification(user, refetchMovie);
+      handleNotification(user);
     }
   }, [user]);
 
